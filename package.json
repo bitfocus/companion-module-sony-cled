@@ -12,11 +12,11 @@
   "author": "Elliott C. Balsley <ebalsley@netflix.com>",
   "license": "ISC",
   "bugs": {
-		"url": "https://github.com/bitfocus/companion-module-sony-cled/issues",
-    "homepage": "https://github.com/bitfocus/companion-module-sony-cled#readme",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/bitfocus/companion-module-sony-cled.git"
-    }
+		"url": "https://github.com/bitfocus/companion-module-sony-cled/issues"
+  },
+  "homepage": "https://github.com/bitfocus/companion-module-sony-cled#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitfocus/companion-module-sony-cled.git"
 	}
 }
