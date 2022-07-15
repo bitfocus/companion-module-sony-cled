@@ -4,6 +4,7 @@
   "description": "",
   "manufacturer": "Sony",
   "product": "CLED Display Controller ZRCT-200",
+  "keywords": "",
   "shortname": "cled",
   "main": "index.js",
   "scripts": {
