@@ -23,7 +23,7 @@ class instance extends instance_skel {
 
 		// recreate the array of controller IP addresses
 		let hosts = []
-		
+
 		for (let i = 1; i <= this.config.controller_count; i++) {
 			hosts.push(eval('this.config.host' + i))
 		}
@@ -44,7 +44,7 @@ class instance extends instance_skel {
 		// open a socket for testing and then close it
 		this.status(this.STATE_WARNING, 'Connecting')
 		let hosts = JSON.parse(this.config.all_hosts)
-		
+
 		if (hosts) {
 			for (let i = 0; i < this.config.controller_count; i++) {
 				this.debug('Testing connection to ' + hosts[i])
@@ -94,9 +94,7 @@ class instance extends instance_skel {
 				label: 'Controller Model',
 				width: 5,
 				default: 'zrct-200',
-				choices: [
-					{ id: 'zrct-200', label: 'ZRCT-200' }
-				]
+				choices: [{ id: 'zrct-200', label: 'ZRCT-200' }],
 			},
 			{
 				type: 'textinput',
@@ -104,7 +102,7 @@ class instance extends instance_skel {
 				label: 'Control Port',
 				width: 3,
 				default: 53595,
-				regex: this.REGEX_PORT
+				regex: this.REGEX_PORT,
 			},
 			{
 				type: 'textinput',
@@ -153,8 +151,8 @@ class instance extends instance_skel {
 				id: 'all_hosts',
 				label: 'stringified array of hosts (not shown)',
 				width: 8,
-				isVisible: (configValues) => false
-			}
+				isVisible: (configValues) => false,
+			},
 		]
 	}
 
@@ -180,10 +178,10 @@ class instance extends instance_skel {
 							{ id: 'dp2', label: 'DisplayPort 2' },
 							{ id: 'dp1_2', label: 'DisplayPort Dual' },
 							{ id: 'hdmi1', label: 'HDMI 1' },
-							{ id: 'hdmi2', label: 'HDMI 2' }
-						]
-					}
-				]
+							{ id: 'hdmi2', label: 'HDMI 2' },
+						],
+					},
+				],
 			},
 
 			color_space: {
@@ -205,9 +203,9 @@ class instance extends instance_skel {
 							{ id: 'custom8', label: 'Custom 3' },
 							{ id: 'custom9', label: 'Custom 4' },
 							{ id: 'custom10', label: 'Custom 5' },
-						]
-					}
-				]
+						],
+					},
+				],
 			},
 			picture_mode: {
 				label: 'Select Picture Mode',
@@ -228,9 +226,9 @@ class instance extends instance_skel {
 							{ id: 'mode8', label: 'Mode 8' },
 							{ id: 'mode9', label: 'Mode 9' },
 							{ id: 'mode10', label: 'Mode 10' },
-						]
-					}
-				]
+						],
+					},
+				],
 			},
 			hdr: {
 				label: 'Select HDR Mode',
@@ -245,10 +243,10 @@ class instance extends instance_skel {
 							{ id: 'slog3', label: 'S-Log 3' },
 							{ id: 'st2084', label: 'ST 2084 (PQ)' },
 							{ id: 'hlg', label: 'HLG' },
-							{ id: 'slog3_live', label: 'S-Log3 Live' }
-						]
-					}
-				]
+							{ id: 'slog3_live', label: 'S-Log3 Live' },
+						],
+					},
+				],
 			},
 
 			other_cmd: {
@@ -259,49 +257,49 @@ class instance extends instance_skel {
 						id: 'value',
 						label: 'Command:',
 						tooltip: 'Most commands need quotes around the value, e.g. blank "on"',
-						width: 12
-					}
-				]
-			}
+						width: 12,
+					},
+				],
+			},
 		})
 	}
 
 	action(action) {
 		let cmd
 		let hosts = JSON.parse(this.config.all_hosts)
-		
+
 		switch (action.action) {
 			case 'input':
 				this.parseVariables(action.options.value, (value) => {
-					cmd = 'input "' + decodeURI(value) + '"\r\n';
+					cmd = 'input "' + decodeURI(value) + '"\r\n'
 				})
 				this.debug(cmd)
 				break
 
 			case 'color_space':
 				this.parseVariables(action.options.value, (value) => {
-					cmd = 'color_space "' + decodeURI(value) + '"\r\n';
+					cmd = 'color_space "' + decodeURI(value) + '"\r\n'
 				})
 				this.debug(cmd)
 				break
 
 			case 'picture_mode':
 				this.parseVariables(action.options.value, (value) => {
-					cmd = 'picture_mode "' + decodeURI(value) + '"\r\n';
+					cmd = 'picture_mode "' + decodeURI(value) + '"\r\n'
 				})
 				this.debug(cmd)
 				break
 
 			case 'hdr_mode':
 				this.parseVariables(action.options.value, (value) => {
-					cmd = 'hdr "' + decodeURI(value) + '"\r\n';
+					cmd = 'hdr "' + decodeURI(value) + '"\r\n'
 				})
 				this.debug(cmd)
 				break
 
 			case 'other_cmd':
 				this.parseVariables(action.options.value, (value) => {
-					cmd = decodeURI(value) + '\r\n';
+					cmd = decodeURI(value) + '\r\n'
 				})
 				this.debug(cmd)
 				break
@@ -320,11 +318,11 @@ class instance extends instance_skel {
 				// create new TCP socket each time
 				let socket = new tcp(hosts[i], this.config.port)
 				this.debug('created new socket')
-	
+
 				socket.on('error', (err) => {
 					this.log('error', 'Network error: [' + hosts[i] + ']: ' + err.message)
 				})
-	
+
 				socket.on('connect', () => {
 					this.debug('Connected to ' + hosts[i])
 
@@ -337,9 +335,8 @@ class instance extends instance_skel {
 
 					// close socket
 					socket.destroy()
-
 				})
-	
+
 				socket.on('data', (data) => {})
 			}
 		}
