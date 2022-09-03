@@ -1,10 +1,10 @@
 {
   "name": "sony-cled",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "manufacturer": "Sony",
   "product": "CLED Display Controller ZRCT-200",
-  "keywords": "",
+  "keywords": [],
   "shortname": "cled",
   "main": "index.js",
   "scripts": {
