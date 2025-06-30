@@ -3,7 +3,7 @@ import {
 	CompanionInputFieldTextInput,
 	Regex,
 	type SomeCompanionConfigField,
-} from '@companion-module/base';
+} from '@companion-module/base'
 
 export interface ModuleConfig {
 	'1_active': boolean
@@ -22,12 +22,12 @@ export interface ModuleConfig {
 	'4_host': string
 	'4_port': number
 	'4_pass': string
-};
+}
 
-export const MAX_CONTROLLERS = 4;
+export const MAX_CONTROLLERS = 4
 
 export function GetConfigFields(): SomeCompanionConfigField[] {
-	const configs: SomeCompanionConfigField[] = [];
+	const configs: SomeCompanionConfigField[] = []
 
 	for (let i = 1; i <= MAX_CONTROLLERS; i++) {
 		configs.push(
@@ -62,11 +62,11 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 				width: 4,
 				default: '',
 			},
-		);
+		)
 	}
 
-	(configs[0] as CompanionInputFieldCheckbox).default = true;
-	(configs[1] as CompanionInputFieldTextInput).default = '127.0.0.1';
+	;(configs[0] as CompanionInputFieldCheckbox).default = true
+	;(configs[1] as CompanionInputFieldTextInput).default = '127.0.0.1'
 
-	return configs;
+	return configs
 }

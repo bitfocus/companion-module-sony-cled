@@ -1,17 +1,17 @@
-import { InstanceBase, runEntrypoint, InstanceStatus, SomeCompanionConfigField } from '@companion-module/base';
-import { GetConfigFields, type ModuleConfig, MAX_CONTROLLERS } from './config';
-import { UpdateVariableDefinitions } from './variables';
-import { UpgradeScripts } from './upgrades';
-import { UpdateActions } from './actions';
-import { UpdateFeedbacks } from './feedbacks';
-import { UpdatePresets } from './presets';
-import { sendADCP } from './adcp';
+import { InstanceBase, runEntrypoint, InstanceStatus, SomeCompanionConfigField } from '@companion-module/base'
+import { GetConfigFields, type ModuleConfig, MAX_CONTROLLERS } from './config.js'
+import { UpdateVariableDefinitions } from './variables.js'
+import { UpgradeScripts } from './upgrades.js'
+import { UpdateActions } from './actions.js'
+import { UpdateFeedbacks } from './feedbacks.js'
+import { UpdatePresets } from './presets.js'
+import { sendADCP } from './adcp.js'
 
 export class ModuleInstance extends InstanceBase<ModuleConfig> {
-	config!: ModuleConfig;  // Setup in init()
+	config!: ModuleConfig // Setup in init()
 
 	constructor(internal: unknown) {
-		super(internal);
+		super(internal)
 	}
 
 	sendCommand(cmd: string): void {

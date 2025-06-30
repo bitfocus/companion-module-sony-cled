@@ -1,11 +1,11 @@
 export type CommandSpec = [
-	string,  // Setting Name
-	string,  // Item Name
-	string,  // ID
-	string,  // Command
+	string, // Setting Name
+	string, // Item Name
+	string, // ID
+	string, // Command
 	boolean, // Default
-	string   // Preset Label
-];
+	string, // Preset Label
+]
 
 export function getCommandList(): CommandSpec[] {
 	return [
@@ -59,5 +59,5 @@ export function getCommandList(): CommandSpec[] {
 		['HDR', 'SMPTE ST 2084 (C/CH)', 'hdr_st2084c', 'hdr "st2084_c_series"', false, 'CLED\nHDR ST2084 (C/CH)'],
 		['HDR HDMI Auto Setting', 'OFF', 'hdr_auto_off', 'hdr_auto_mode "off"', true, 'CLED\nHDR Auto OFF'],
 		['HDR HDMI Auto Setting', 'ON', 'hdr_auto_on', 'hdr_auto_mode "on"', false, 'CLED\nHDR Auto ON'],
-	];
+	]
 }
