@@ -22,9 +22,17 @@ export interface ModuleConfig {
 	'4_host': string
 	'4_port': number
 	'4_pass': string
+	'5_active': boolean
+	'5_host': string
+	'5_port': number
+	'5_pass': string
+	'6_active': boolean
+	'6_host': string
+	'6_port': number
+	'6_pass': string
 }
 
-export const MAX_CONTROLLERS = 4
+export const MAX_CONTROLLERS = 6
 
 export function GetConfigFields(): SomeCompanionConfigField[] {
 	const configs: SomeCompanionConfigField[] = []
