@@ -1,23 +1,50 @@
 {
   "name": "sony-cled",
-  "version": "1.0.2",
-  "description": "",
-  "manufacturer": "Sony",
-  "product": "CLED Display Controller ZRCT-200",
-  "keywords": [],
-  "shortname": "cled",
-  "main": "index.js",
+  "version": "2.0.0",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "husky",
+    "format": "prettier -w .",
+    "package": "run build && companion-module-build",
+    "build": "rimraf dist && run build:main",
+    "build:main": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint:raw": "eslint",
+    "lint": "run lint:raw ."
   },
   "author": "Elliott C. Balsley <ebalsley@netflix.com>",
   "license": "ISC",
-  "bugs": {
-		"url": "https://github.com/bitfocus/companion-module-sony-cled/issues"
-  },
-  "homepage": "https://github.com/bitfocus/companion-module-sony-cled#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitfocus/companion-module-sony-cled.git"
-	}
+  },
+  "engines": {
+    "node": "^22.14",
+    "yarn": "^4"
+  },
+  "dependencies": {
+    "@companion-module/base": "~1.11.3"
+  },
+  "devDependencies": {
+    "@companion-module/tools": "^2.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.14.1",
+    "eslint": "^9.24.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1"
+  },
+  "prettier": "@companion-module/tools/.prettierrc.json",
+  "lint-staged": {
+    "*.{css,json,md,scss}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx,js,jsx}": [
+      "yarn lint:raw --fix"
+    ]
+  },
+  "packageManager": "yarn@4.9.1"
 }
