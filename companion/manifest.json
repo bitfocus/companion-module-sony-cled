@@ -2,7 +2,7 @@
 	"id": "sony-cled",
 	"name": "sony-cled",
 	"shortname": "ZRCT LED Controller",
-	"description": "A short one line description of your module",
+	"description": "Sony LED Display Controller ZRCT Series",
 	"version": "2.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-sony-cled.git",
@@ -22,5 +22,5 @@
 	"legacyIds": [],
 	"manufacturer": "Sony",
 	"products": ["ZRCT-300"],
-	"keywords": ["Sony Crystal LED", "CLED", "ADCP"]
+	"keywords": ["Sony Crystal LED", "CLED", "ADCP", "dvLED"]
 }

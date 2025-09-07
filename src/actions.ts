@@ -45,12 +45,12 @@ export function UpdateActions(self: ModuleInstance): void {
 	// Generate callback from the list
 	Object.keys(actions).forEach((k) => {
 		;(actions[k] as CompanionActionDefinition).callback = async (event: CompanionActionEvent) => {
-			self.sendCommand(commands[event.options.val as string])
+			await self.sendCommand(commands[event.options.val as string])
 		}
 	})
 
 	// Other user defined command
-	actions['other_command_action'] = {
+	actions['other_cmd_action'] = {
 		name: 'Other Command',
 		options: [
 			{
@@ -61,7 +61,7 @@ export function UpdateActions(self: ModuleInstance): void {
 			},
 		],
 		callback: async (event: CompanionActionEvent) => {
-			self.sendCommand(event.options.val as string)
+			await self.sendCommand(event.options.val as string)
 		},
 	}
 

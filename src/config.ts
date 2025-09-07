@@ -1,7 +1,6 @@
 import {
 	CompanionInputFieldCheckbox,
 	CompanionInputFieldTextInput,
-	Regex,
 	type SomeCompanionConfigField,
 } from '@companion-module/base'
 
@@ -43,16 +42,8 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 				type: 'checkbox',
 				id: `${i}_active`,
 				label: `Controller ${i}`,
-				width: 2,
-				default: false,
-			},
-			{
-				type: 'textinput',
-				id: `${i}_host`,
-				label: 'Target IP',
 				width: 3,
-				regex: Regex.IP,
-				default: '',
+				default: false,
 			},
 			{
 				type: 'number',
@@ -65,6 +56,13 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			},
 			{
 				type: 'textinput',
+				id: `${i}_host`,
+				label: 'Target IP',
+				width: 3,
+				default: '',
+			},
+			{
+				type: 'textinput',
 				id: `${i}_pass`,
 				label: 'Password',
 				width: 4,
@@ -74,7 +72,7 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 	}
 
 	;(configs[0] as CompanionInputFieldCheckbox).default = true
-	;(configs[1] as CompanionInputFieldTextInput).default = '127.0.0.1'
+	;(configs[2] as CompanionInputFieldTextInput).default = '127.0.0.1'
 
 	return configs
 }
