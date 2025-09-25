@@ -3,7 +3,7 @@
 	"name": "sony-cled",
 	"shortname": "ZRCT LED Controller",
 	"description": "Sony LED Display Controller ZRCT Series",
-	"version": "2.0.0",
+	"version": "0.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-sony-cled.git",
 	"bugs": "https://github.com/bitfocus/companion-module-sony-cled/issues",
