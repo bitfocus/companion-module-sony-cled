@@ -155,7 +155,7 @@ export function getCommandList(): CommandSpec[] {
 			'Test Pattern',
 			'Checker',
 			'test_pattern_checker',
-			'pat_unit_adj_led_display01 [1,2,7,0,1023,1023,1023,0,0,0,0,120,120,0,0,0]',
+			'pat_unit_adj_led_display01 [1,2,7,0,1023,1023,1023,0,0,0,0,0,120,120,0,0]',
 			false,
 			'CLED\nChecker',
 		],
