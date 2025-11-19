@@ -1,14 +1,28 @@
 import { InstanceBase, runEntrypoint, InstanceStatus, SomeCompanionConfigField } from '@companion-module/base'
 import { GetConfigFields, type ModuleConfig, MAX_CONTROLLERS } from './config.js'
-import { UpdateVariableDefinitions } from './variables.js'
+import { UpdateVariableDefinitions, VARIABLES } from './variables.js'
 import { UpgradeScripts } from './upgrades.js'
 import { UpdateActions } from './actions.js'
 import { UpdateFeedbacks } from './feedbacks.js'
 import { UpdatePresets } from './presets.js'
 import { sendADCP } from './adcp.js'
 
+function unquoteString(str: string): string {
+	if (str.startsWith('"') && str.endsWith('"')) {
+		return str.slice(1, -1)
+	}
+	return str
+}
+
+//const STATE_VARS = ['power_status', 'light_output_val', 'hdr', 'hdr_auto_mode']
+const STATE_VARS = VARIABLES.map((x) => x[0])
+
 export class ModuleInstance extends InstanceBase<ModuleConfig> {
 	config!: ModuleConfig // Setup in init()
+	private interval: number = 1000
+	private timerId: NodeJS.Timeout | null = null
+	private polling: boolean = false
+	private pollingInterval: number = 60 * 1000
 
 	constructor(internal: unknown) {
 		super(internal)
@@ -23,6 +37,8 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 				const port = this.config[`${i}_port` as keyof typeof this.config] as number
 				const pass = this.config[`${i}_pass` as keyof typeof this.config] as string
 				promises.push(sendADCP(host, port, pass, cmd))
+			} else {
+				promises.push(Promise.resolve(''))
 			}
 		}
 		return Promise.allSettled(promises)
@@ -35,9 +51,54 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 
 		this.updateActions() // export actions
 		//this.updateFeedbacks() // export feedbacks
-		//this.updateVariableDefinitions() // export variable definitions
+		this.updateVariableDefinitions() // export variable definitions
 		this.updatePresets() // export presets
+
+		this.startPolling(this.pollingInterval)
 	}
+
+	startPolling(interval: number): void {
+		this.interval = interval
+		if (this.polling) {
+			return
+		}
+		this.polling = true
+		void this.poll()
+	}
+
+	stopPolling(): void {
+		this.polling = false
+		if (this.timerId) {
+			clearTimeout(this.timerId)
+			this.timerId = null
+		}
+	}
+
+	private async poll() {
+		if (!this.polling) {
+			return
+		}
+
+		await this.getDeviceState().catch(() => {})
+
+		if (this.polling) {
+			this.timerId = setTimeout(() => void this.poll(), this.interval)
+		}
+	}
+
+	private async getDeviceState(): Promise<void> {
+		const vars: { [key: string]: string } = {}
+
+		for (let i = 0; i < STATE_VARS.length; i++) {
+			const res = await this.sendCommand(`${STATE_VARS[i]} ?`)
+			res.map((r, j) => {
+				vars[`controller_${j + 1}-${STATE_VARS[i]}`] = r.status === 'fulfilled' ? unquoteString(r.value) : ''
+			})
+		}
+
+		this.setVariableValues(vars)
+	}
+
 	// When module gets deleted
 	async destroy(): Promise<void> {
 		this.log('debug', 'destroy')
@@ -45,6 +106,8 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 
 	async configUpdated(config: ModuleConfig): Promise<void> {
 		this.config = config
+		this.stopPolling()
+		this.startPolling(this.pollingInterval)
 	}
 
 	// Return config fields for web config
