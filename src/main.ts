@@ -14,15 +14,12 @@ function unquoteString(str: string): string {
 	return str
 }
 
-//const STATE_VARS = ['power_status', 'light_output_val', 'hdr', 'hdr_auto_mode']
 const STATE_VARS = VARIABLES.map((x) => x[0])
 
 export class ModuleInstance extends InstanceBase<ModuleConfig> {
 	config!: ModuleConfig // Setup in init()
-	private interval: number = 1000
 	private timerId: NodeJS.Timeout | null = null
 	private polling: boolean = false
-	private pollingInterval: number = 60 * 1000
 
 	constructor(internal: unknown) {
 		super(internal)
@@ -45,20 +42,16 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 	}
 
 	async init(config: ModuleConfig): Promise<void> {
-		this.config = config
-
-		this.updateStatus(InstanceStatus.Ok)
-
 		this.updateActions() // export actions
 		//this.updateFeedbacks() // export feedbacks
 		this.updateVariableDefinitions() // export variable definitions
 		this.updatePresets() // export presets
 
-		this.startPolling(this.pollingInterval)
+		await this.configUpdated(config)
+		this.updateStatus(InstanceStatus.Ok)
 	}
 
-	startPolling(interval: number): void {
-		this.interval = interval
+	startPolling(): void {
 		if (this.polling) {
 			return
 		}
@@ -82,7 +75,7 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 		await this.getDeviceState().catch(() => {})
 
 		if (this.polling) {
-			this.timerId = setTimeout(() => void this.poll(), this.interval)
+			this.timerId = setTimeout(() => void this.poll(), this.config.polling_interval)
 		}
 	}
 
@@ -106,8 +99,11 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 
 	async configUpdated(config: ModuleConfig): Promise<void> {
 		this.config = config
+
 		this.stopPolling()
-		this.startPolling(this.pollingInterval)
+		if (this.config.polling_enable) {
+			this.startPolling()
+		}
 	}
 
 	// Return config fields for web config
