@@ -5,6 +5,8 @@ import {
 } from '@companion-module/base'
 
 export interface ModuleConfig {
+	polling_enable: boolean
+	polling_interval: number
 	'1_active': boolean
 	'1_host': string
 	'1_port': number
@@ -36,20 +38,39 @@ export const MAX_CONTROLLERS = 6
 export function GetConfigFields(): SomeCompanionConfigField[] {
 	const configs: SomeCompanionConfigField[] = []
 
+	configs.push(
+		{
+			type: 'checkbox',
+			id: 'polling_enable',
+			label: 'Enable Polling',
+			width: 3,
+			default: true,
+		},
+		{
+			type: 'number',
+			id: 'polling_interval',
+			label: 'Polling Interval',
+			width: 9,
+			min: 1000,
+			max: 24 * 60 * 60 * 1000,
+			default: 60 * 1000,
+		},
+	)
+
 	for (let i = 1; i <= MAX_CONTROLLERS; i++) {
 		configs.push(
 			{
 				type: 'checkbox',
 				id: `${i}_active`,
 				label: `Controller ${i}`,
-				width: 3,
+				width: 2,
 				default: false,
 			},
 			{
 				type: 'number',
 				id: `${i}_port`,
 				label: 'Target Port',
-				width: 3,
+				width: 2,
 				min: 1,
 				max: 65535,
 				default: 53595,
@@ -58,7 +79,7 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 				type: 'textinput',
 				id: `${i}_host`,
 				label: 'Target IP',
-				width: 3,
+				width: 4,
 				default: '',
 			},
 			{
