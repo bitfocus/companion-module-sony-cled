@@ -1,6 +1,6 @@
 {
   "name": "sony-cled",
-  "version": "2.1.1",
+  "version": "2.1.3",
   "main": "dist/main.js",
   "scripts": {
     "postinstall": "husky",
