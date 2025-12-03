@@ -1,6 +1,6 @@
 {
   "name": "sony-cled",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "dist/main.js",
   "scripts": {
     "postinstall": "husky",
@@ -23,7 +23,7 @@
     "yarn": "^4"
   },
   "dependencies": {
-    "@companion-module/base": "~1.11.3"
+    "@companion-module/base": "^1.13.5"
   },
   "devDependencies": {
     "@companion-module/tools": "^2.3.0",

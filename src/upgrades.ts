@@ -71,4 +71,24 @@ export const UpgradeScripts: CompanionStaticUpgradeScript<ModuleConfig>[] = [
 
 		return newConfig
 	},
+
+	// From v2.0 to v2.1
+	function (
+		context: CompanionUpgradeContext<ModuleConfig>,
+		props: CompanionStaticUpgradeProps<ModuleConfig>,
+	): CompanionStaticUpgradeResult<ModuleConfig> {
+		let updatedConfig: ModuleConfig | null = null
+
+		if (context.currentConfig['polling_enable'] === undefined) {
+			updatedConfig = { ...props.config } as ModuleConfig
+			updatedConfig['polling_enable'] = false
+			updatedConfig['polling_interval'] = 60 * 1000
+		}
+
+		return {
+			updatedActions: [],
+			updatedFeedbacks: [],
+			updatedConfig,
+		}
+	},
 ]
