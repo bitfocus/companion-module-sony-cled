@@ -13,7 +13,7 @@
     "lint": "run lint:raw ."
   },
   "author": "Elliott C. Balsley <ebalsley@netflix.com>",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitfocus/companion-module-sony-cled.git"
